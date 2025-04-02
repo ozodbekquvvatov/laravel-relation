@@ -53,9 +53,8 @@ class UserController extends Controller
      */
     public function store(UserRegisterRequest $request)
     {
-        $validated = $request->validated(); // Validate the request
+        $validated = $request->validated(); 
     
-        // Hash the password before saving
         $validated['password'] = bcrypt($validated['password']);
     
         $users = User::create($validated);
