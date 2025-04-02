@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\PostCreateRequest;
 
 class PostController extends Controller
@@ -109,8 +110,21 @@ class PostController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Post $post)
     {
-        //
+        // Faqatgina post egasi uni o‘chira olishi kerak
+        if (Auth::id() !== $post->user_id) {
+            return redirect()->route('posts.index')->with('error', 'You are not authorized to delete this post.');
+        }
+    
+        // Postga bog‘langan rasmni ham o‘chiramiz
+        if ($post->image) {
+            Storage::delete('public/' . $post->image);
+        }
+    
+        $post->delete();
+    
+        return redirect()->route('posts.index')->with('success', 'Post deleted successfully.');
     }
+    
 }
