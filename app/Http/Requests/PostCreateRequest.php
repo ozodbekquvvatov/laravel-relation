@@ -27,4 +27,5 @@ class PostCreateRequest extends FormRequest
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ];
     }
+    
 }
