@@ -20,6 +20,7 @@ class GuestMiddleware
             return redirect()->route('posts.index'); 
         }
 
+        
         return $next($request);
     }
 }
