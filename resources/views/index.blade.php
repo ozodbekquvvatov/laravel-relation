@@ -18,6 +18,7 @@
                 <a href="{{ route('posts.edit', $post->id) }}" class="btn btn-secondary ms-2">Edit</a>
             @endif
         </div>
+        
         <div class="card-footer text-muted">
             {{ $post->user->username ?? 'Unknown Author' }}
         </div>
