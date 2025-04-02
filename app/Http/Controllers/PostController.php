@@ -60,7 +60,7 @@ class PostController extends Controller
      */
     public function show(string $id)
     {
-        $post = Post::findOrFail($id);
+        $post = Post::findOrFail($id);   
         return view('show', compact('post'));
     }
 
@@ -111,18 +111,24 @@ class PostController extends Controller
      * Remove the specified resource from storage.
      */
     public function destroy(Post $post)
-    {
-        if (Auth::id() !== $post->user_id) {
-            return redirect()->route('posts.index')->with('error', 'You are not authorized to delete this post.');
-        }
-    
-        if ($post->image) {
-            Storage::delete('public/' . $post->image);
-        }
-    
-        $post->delete();
-    
-        return redirect()->route('posts.index')->with('success', 'Post deleted successfully.');
+{
+    if (Auth::id() !== $post->user_id) {
+        return redirect()->route('posts.index')->with('error', 'You are not authorized to delete this post.');
     }
+
+    // Rasmni o‘chirish
+    if ($post->image) {
+        $imagePath = public_path('storage/' . $post->image);
+        
+        if (file_exists($imagePath)) {
+            unlink($imagePath);
+        }
+    }
+
+    $post->delete();
+
+    return redirect()->route('posts.index')->with('success', 'Post deleted successfully.');
+}
+
     
 }
