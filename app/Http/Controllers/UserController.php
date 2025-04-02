@@ -20,9 +20,8 @@ class UserController extends Controller
     public function index()
     {
 
-        return view("login");
+        return view("auth.login");
     }
-
     public function login(UserLoginRequest $request)
     {
         $user = User::where('email', $request->email)->first();
@@ -45,7 +44,7 @@ class UserController extends Controller
     public function create()
     {
     
-        return view("register");
+        return view("auth.register");
     }
 
     /**
@@ -73,7 +72,7 @@ class UserController extends Controller
          $request->session()->invalidate(); 
          $request->session()->regenerateToken(); 
      
-         return redirect('/'); 
+         return redirect()->route('users.index'); 
      }
      
 

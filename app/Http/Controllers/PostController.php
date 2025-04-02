@@ -17,7 +17,7 @@ class PostController extends Controller
     {
         
         $posts = Post::with('user')->get(); 
-        return view("index",compact("posts"));
+        return view("posts_crud.index",compact("posts"));
     }
 
     /**
@@ -25,7 +25,7 @@ class PostController extends Controller
      */
     public function create()
     {
-     return view('create');   
+     return view('posts_crud.create');   
     }
 
     /**
@@ -35,10 +35,7 @@ class PostController extends Controller
      */
     public function store(PostCreateRequest $request)
     {
-        if (!Auth::check()) {
-            return redirect()->route('login')->withErrors(['email' => 'Please log in to create a post.']);
-        }
-    
+       
         if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('images', 'public');
         } else {
@@ -61,7 +58,7 @@ class PostController extends Controller
     public function show(string $id)
     {
         $post = Post::findOrFail($id);   
-        return view('show', compact('post'));
+        return view('posts_crud.show', compact('post'));
     }
 
     /**
@@ -72,10 +69,10 @@ class PostController extends Controller
         $post = Post::findOrFail($id);
 
     if (Auth::id() !== $post->user_id) {
-        return redirect()->route('posts.index')->with('error', 'Siz faqat o\'z postlaringizni tahrir qilishingiz mumkin.');
+        return redirect()->route('posts.index');
     }
 
-    return view('edit', compact('post'));
+    return view('posts_crud.edit', compact('post'));
     }
 
     /**
@@ -85,11 +82,6 @@ class PostController extends Controller
     {
 
         $post = Post::findOrFail($id);  
-        if (Auth::id() !== $post->user_id) {
-            return redirect()->route('posts.index')->with('error', 'Siz faqat o\'z postlaringizni tahrir qilishingiz mumkin.');
-        }
-    
-    
     if ($request->hasFile('image')) {
         if ($post->image && file_exists(public_path('storage/' . $post->image))) {
             unlink(public_path('storage/' . $post->image));  
@@ -112,9 +104,6 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
 {
-    if (Auth::id() !== $post->user_id) {
-        return redirect()->route('posts.index')->with('error', 'You are not authorized to delete this post.');
-    }
 
     // Rasmni o‘chirish
     if ($post->image) {
@@ -127,7 +116,7 @@ class PostController extends Controller
 
     $post->delete();
 
-    return redirect()->route('posts.index')->with('success', 'Post deleted successfully.');
+    return redirect()->route('posts.index');
 }
 
     
