@@ -22,6 +22,7 @@ class AuthMiddleware
             return redirect()->route('users.index'); 
         }
 
+        
         return $next($request);
     }
 }
