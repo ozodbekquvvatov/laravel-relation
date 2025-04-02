@@ -112,12 +112,10 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        // Faqatgina post egasi uni o‘chira olishi kerak
         if (Auth::id() !== $post->user_id) {
             return redirect()->route('posts.index')->with('error', 'You are not authorized to delete this post.');
         }
     
-        // Postga bog‘langan rasmni ham o‘chiramiz
         if ($post->image) {
             Storage::delete('public/' . $post->image);
         }
