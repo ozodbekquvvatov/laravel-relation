@@ -14,6 +14,7 @@ Route::resource('/users',UserController::class)->names('users');
 Route::resource('/posts',PostController::class)->names('posts');
 Route::get('/posts', [PostController::class, 'index'])->name('posts.index');
 Route::post('/login', [UserController::class, 'login'])->name('login');
+Route::post('/users/crete', [UserController::class, 'store'])->name('users.store');
 Route::post('/logout', [UserController::class, 'logout'])->name('logout');
 
 Route::middleware(['auth'])->group(function () {
