@@ -28,5 +28,6 @@
             </article>
         </div>
     </div>
+    
 </div>
 @endsection
