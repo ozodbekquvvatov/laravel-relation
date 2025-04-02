@@ -15,6 +15,7 @@
                 <label for="content" class="form-label">Content</label>
                 <textarea class="form-control" id="content" name="content" rows="6" required>{{ $post->content }}</textarea>
             </div>
+            
             <div class="mb-3">
                 <label for="current-image" class="form-label">Current Image</label>
                 <img src="{{ asset('storage/' . $post->image) }}" width="100" alt="Current post image" class="img-fluid mb-2" id="current-image">
